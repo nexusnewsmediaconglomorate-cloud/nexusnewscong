@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { supabase } from '../lib/supabaseClient';
 
-const MapContainer = dynamic(() => import('react-leaflet').then((mod) => mod.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import('react-leaflet').then((mod) => mod.TileLayer), { ssr: false });
-const Marker = dynamic(() => import('react-leaflet').then((mod) => mod.Marker), { ssr: false });
-const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { ssr: false });
+const MapContainer = dynamic(() => import('react-leaflet').then((mod) => mod.MapContainer), { ssr: false }) as any;
+const TileLayer = dynamic(() => import('react-leaflet').then((mod) => mod.TileLayer), { ssr: false }) as any;
+const Marker = dynamic(() => import('react-leaflet').then((mod) => mod.Marker), { ssr: false }) as any;
+const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { ssr: false }) as any;
 
 export default function NexusNews() {
   const [currentRoom, setCurrentRoom] = useState(0);
