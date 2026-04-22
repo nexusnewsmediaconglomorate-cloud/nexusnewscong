@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import swarm from '../../../lib/swarm-core';
+import swarm from '../../../../lib/swarm-core';
 
 export async function POST(req: NextRequest) {
   try {
     const { message } = await req.json();
     
-    // Self-owned autonomous swarm handles everything (no external Grok key needed)
+    // Self-owned autonomous swarm handles everything
     const reply = await swarm.ask(message);
     
     // Security Swarm runs on every request
