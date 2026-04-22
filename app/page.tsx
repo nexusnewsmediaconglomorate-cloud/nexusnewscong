@@ -26,22 +26,37 @@ export default function NexusNews() {
     return () => clearInterval(interval);
   }, []);
 
-  // Realtime chat from Supabase
+  // Realtime chat from Supabase (bulletproofed for final deployment)
   useEffect(() => {
+    let mounted = true;
+
     const fetchMessages = async () => {
-      const { data } = await supabase.from('messages').select('*').order('created_at', { ascending: true });
-      if (data) setChatMessages(data);
+      const { data } = await supabase
+        .from('messages')
+        .select('*')
+        .order('created_at', { ascending: true });
+      if (data && mounted) setChatMessages(data);
     };
+
     fetchMessages();
 
     const channel = supabase
       .channel('messages')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, (payload) => {
-        setChatMessages((prev) => [...prev, payload.new]);
-      })
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'messages' },
+        (payload) => {
+          if (mounted) {
+            setChatMessages((prev) => [...prev, payload.new]);
+          }
+        }
+      )
       .subscribe();
 
-    return () => supabase.removeChannel(channel);
+    return () => {
+      mounted = false;
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const sendChatMessage = async () => {
