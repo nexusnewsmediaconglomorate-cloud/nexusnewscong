@@ -8,7 +8,7 @@ const MapContainer = dynamic(() => import('react-leaflet').then((mod) => mod.Map
 const TileLayer = dynamic(() => import('react-leaflet').then((mod) => mod.TileLayer), { ssr: false }) as any;
 const Marker = dynamic(() => import('react-leaflet').then((mod) => mod.Marker), { ssr: false }) as any;
 const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { ssr: false }) as any;
-export const dynamic = 'force-dynamic';
+
 export default function NexusNews() {
   const [currentRoom, setCurrentRoom] = useState(0);
   const [chatMessages, setChatMessages] = useState<any[]>([]);
