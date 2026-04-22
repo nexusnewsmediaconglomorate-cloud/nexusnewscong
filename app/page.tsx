@@ -1,4 +1,4 @@
-
+'use client';
 
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
@@ -26,7 +26,7 @@ export default function NexusNews() {
     return () => clearInterval(interval);
   }, []);
 
-  // Realtime chat from Supabase (bulletproofed for final deployment)
+  // Realtime chat from Supabase (bulletproofed)
   useEffect(() => {
     let mounted = true;
 
