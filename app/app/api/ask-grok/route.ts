@@ -1,6 +1,19 @@
-import { createClient } from '@supabase/supabase-js';
+import { NextRequest, NextResponse } from 'next/server';
+import swarm from '../../../lib/swarm-core';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export async function POST(req: NextRequest) {
+  try {
+    const { message } = await req.json();
+    
+    // Self-owned autonomous swarm handles everything (no external Grok key needed)
+    const reply = await swarm.ask(message);
+    
+    // Security Swarm runs on every request
+    await swarm.securityCheck();
+    
+    return NextResponse.json({ choices: [{ message: { content: reply } }] });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ choices: [{ message: { content: 'Swarm is online and defending. Try again in a moment.' } }] });
+  }
+}
