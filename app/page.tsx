@@ -77,10 +77,10 @@ export default function NexusNews() {
         body: JSON.stringify({ message: aiInput }),
       });
       const data = await res.json();
-      const reply = data.choices?.[0]?.message?.content || 'AI response unavailable. Check your Grok API key in .env.local';
+      const reply = data.choices?.[0]?.message?.content || 'AI response unavailable.';
       setAiMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
     } catch (err) {
-      setAiMessages((prev) => [...prev, { role: 'assistant', content: 'Error connecting to AI. Make sure the server is running.' }]);
+      setAiMessages((prev) => [...prev, { role: 'assistant', content: 'Error connecting to AI.' }]);
     }
     setAiInput('');
   };
